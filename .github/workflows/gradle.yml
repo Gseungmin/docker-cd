@@ -40,3 +40,16 @@ jobs:
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker build -t ${{ secrets.DOCKER_REPO }}/docker-web .
         docker push ${{ secrets.DOCKER_REPO }}/docker-web
+
+    - name: Deploy
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.HOST }}
+        username: ubuntu
+        key: ${{ secrets.KEY }}
+        script: |
+          sudo docker rm -f $(docker ps -qa)
+          sudo docker pull ${{ secrets.DOCKER_REPO }}/docker-web
+          sudo docker pull ${{ secrets.DOCKER_REPO }}/docker-nginx
+          docker-compose up -d
+          docker image prune -f
