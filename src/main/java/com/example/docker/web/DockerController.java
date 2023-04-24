@@ -11,4 +11,9 @@ public class DockerController {
     public String index(@PathVariable("name") String name) {
         return name;
     }
+
+    @GetMapping("/docker/{num}")
+    public String test(@PathVariable("num") String num) {
+        return num;
+    }
 }
