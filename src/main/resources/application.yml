@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    include: database
 
   datasource:
     url: jdbc:mysql://localhost:3306/docker
